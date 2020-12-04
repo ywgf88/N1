@@ -19,6 +19,9 @@ sed -i 's/OpenWrt/William_N1/g' package/base-files/files/bin/config_generate
 # Modify the version number
 sed -i 's/OpenWrt/William build $(date "+%Y.%m.%d") @ OpenWrt/g' package/lean/default-settings/files/zzz-default-settings
 
+# 修改 argon 为默认主题,可根据你喜欢的修改成其他的（不选择那些会自动改变为默认主题的主题才有效果）
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+
 # Add kernel build user
 [ -z $(grep "CONFIG_KERNEL_BUILD_USER=" .config) ] &&
     echo 'CONFIG_KERNEL_BUILD_USER="William"' >>.config ||
@@ -32,7 +35,13 @@ sed -i 's/OpenWrt/William build $(date "+%Y.%m.%d") @ OpenWrt/g' package/lean/de
 
 # 删除默认argon主题，并下载新argon主题
 rm -rf ./package/lean/luci-theme-argon
-git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git  package/lean/luci-theme-argon
+
+git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+
+git clone https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+
+
+#git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git  package/lean/luci-theme-argon
 #git lua-maxminddb 依赖
 #git clone https://github.com/jerrykuku/lua-maxminddb.git  package/lean/lua-maxminddb
 # Modify default IP
@@ -40,12 +49,9 @@ sed -i 's/192.168.1.1/10.10.10.201/g' package/base-files/files/bin/config_genera
 # Modify default wireless name
 sed -i 's/OpenWrt/N1/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
-#add luci-app-diskman
-git clone --depth=1 https://github.com/lisaac/luci-app-diskman
-mkdir parted
-cp luci-app-diskman/Parted.Makefile parted/Makefile
+
 
 #add luci-app-dockerman
 rm -rf ../lean/luci-app-docker
-git clone --depth=1 https://github.com/KEERMercer/luci-app-dockerman
-git clone --depth=1 https://github.com/lisaac/luci-lib-docker
+git clone https://github.com/lisaac/luci-in-docker.git package/luci-in-docker
+git clone https://github.com/lisaac/luci-app-dockerman.git package/luci-app-dockerman
