@@ -50,6 +50,9 @@ sed -i 's/192.168.1.1/10.10.10.201/g' package/base-files/files/bin/config_genera
 sed -i 's/OpenWrt/N1/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 
+sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci-app-cpufreq/Makefile
+
+
 
 #add luci-app-dockerman
 #rm -rf ../lean/luci-app-docker
